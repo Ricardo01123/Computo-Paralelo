@@ -1,83 +1,92 @@
 package servidor.clientes.hilos;
 
 import java.io.*;
-import java.util.*;
 import java.net.*;
+import java.util.*;
 
-//Server class
+// Clase ServidorClientesHIlos
 public class ServidorClientesHIlos {
-    //Vector to store active clients
+    // Vector para almacenar los clientes activos
     static Vector<ClientHandler> clients = new Vector<>();
-    //Counter for clients
+    // Contador para los clientes
     static int i = 0;
-    public static void main(String [] args) throws IOException{
+
+    public static void main(String[] args) throws IOException {
         int port = 6666;
         ServerSocket serverSocket = new ServerSocket(port);
-        Socket socket;
-        while(true){
-            socket = serverSocket.accept();
-            System.out.println("New client request received: " + socket);
-            //Obtain input and output streams
+
+        System.out.println("El servidor está esperando conexiones...");
+
+        while (true) {
+            Socket socket = serverSocket.accept();
+            System.out.println("Nueva solicitud de cliente recibida: " + socket);
+
+            // Obtener flujos de entrada y salida
             DataInputStream dataIS = new DataInputStream(socket.getInputStream());
             DataOutputStream dataOS = new DataOutputStream(socket.getOutputStream());
-            System.out.println("Creating a new handler for this client...");
-            ClientHandler match = new ClientHandler(socket,"client " + i, dataIS,dataOS);
-            Thread thread = new Thread(match);
-            System.out.println("Adding this client to active client list...");
-            clients.add(match);
+
+            System.out.println("Creando un nuevo controlador para este cliente...");
+            ClientHandler clientHandler = new ClientHandler(socket, "Cliente " + i, dataIS, dataOS);
+            Thread thread = new Thread(clientHandler);
+
+            System.out.println("Agregando este cliente a la lista de clientes activos...");
+            clients.add(clientHandler);
+
             thread.start();
             i++;
         }
     }
 }
 
-//ClientHandler class
-class ClientHandler implements Runnable{
+// Clase ClientHandler
+class ClientHandler implements Runnable {
     Scanner reader = new Scanner(System.in);
     String name;
     DataInputStream dataIS;
     DataOutputStream dataOS;
     Socket socket;
     boolean isLoggedIn;
-    //constructor
-    public ClientHandler(Socket socket, String name, DataInputStream dataIS, DataOutputStream dataOS){
-        this.dataIS = dataIS;
-        this.dataOS = dataOS;
+
+    // Constructor
+    public ClientHandler(Socket socket, String name, DataInputStream dataIS, DataOutputStream dataOS) {
         this.socket = socket;
         this.name = name;
+        this.dataIS = dataIS;
+        this.dataOS = dataOS;
         this.isLoggedIn = true;
     }
+
     @Override
-    public void run(){
+    public void run() {
         String received;
-        while(true){
-            try{
+        while (true) {
+            try {
                 received = dataIS.readUTF();
                 System.out.println(received);
-                if(received.equals("logout")){
+                if (received.equals("logout")) {
                     this.isLoggedIn = false;
                     this.socket.close();
                     break;
                 }
-                //Break the string into message and client part
-                StringTokenizer stringToken = new StringTokenizer(received,"/");
+                // Separar la cadena en mensaje y cliente
+                StringTokenizer stringToken = new StringTokenizer(received, "/");
                 String messageToSend = stringToken.nextToken();
                 String client = stringToken.nextToken();
-                //search for the client in the connected devices list
-                for(ClientHandler toSearch : ServidorClientesHIlos.clients){
-                    if(toSearch.name.equals(client) && toSearch.isLoggedIn == true){
+                // Buscar el cliente en la lista de dispositivos conectados
+                for (ClientHandler toSearch : ServidorClientesHIlos.clients) {
+                    if (toSearch.name.equals(client) && toSearch.isLoggedIn) {
                         toSearch.dataOS.writeUTF(this.name + " : " + messageToSend);
                         break;
                     }
                 }
-            }catch(IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        try{
+        try {
             this.dataIS.close();
             this.dataOS.close();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
