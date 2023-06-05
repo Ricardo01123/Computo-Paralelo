@@ -36,3 +36,81 @@ jun. 05, 2023 12:32:03 A. M. servidor.clientes.hilos.ClientHandler sendMessage
 INFO: Mensaje enviado a client 0: client 0: Excelente, entonces ahora vamos por la practica 5/client 1 
 jun. 05, 2023 12:32:03 A. M. servidor.clientes.hilos.ClientHandler sendMessage
 INFO: Mensaje enviado a client 1: client 0: Excelente, entonces ahora vamos por la practica 5/client 1 
+jun. 05, 2023 1:21:35 A. M. servidor.clientes.hilos.ServidorClientesHIlos main
+INFO: Servidor iniciado. Esperando clientes...
+jun. 05, 2023 1:23:46 A. M. servidor.clientes.hilos.ServidorClientesHIlos main
+INFO: Nuevo cliente conectado: Socket[addr=/192.168.100.18,port=60779,localport=6666]
+jun. 05, 2023 1:23:46 A. M. servidor.clientes.hilos.ClientHandler run
+SEVERE: Error en el cliente client 0
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:323)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:350)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:803)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:976)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:971)
+	at java.base/java.io.DataInputStream.readUnsignedShort(DataInputStream.java:343)
+	at java.base/java.io.DataInputStream.readUTF(DataInputStream.java:595)
+	at java.base/java.io.DataInputStream.readUTF(DataInputStream.java:570)
+	at servidor.clientes.hilos.ClientHandler.run(ServidorClientesHIlos.java:87)
+	at java.base/java.lang.Thread.run(Thread.java:831)
+
+jun. 05, 2023 1:24:26 A. M. servidor.clientes.hilos.ServidorClientesHIlos main
+INFO: Nuevo cliente conectado: Socket[addr=/192.168.100.18,port=60845,localport=6666]
+jun. 05, 2023 1:24:26 A. M. servidor.clientes.hilos.ClientHandler run
+SEVERE: Error en el cliente client 1
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:323)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:350)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:803)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:976)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:971)
+	at java.base/java.io.DataInputStream.readUnsignedShort(DataInputStream.java:343)
+	at java.base/java.io.DataInputStream.readUTF(DataInputStream.java:595)
+	at java.base/java.io.DataInputStream.readUTF(DataInputStream.java:570)
+	at servidor.clientes.hilos.ClientHandler.run(ServidorClientesHIlos.java:87)
+	at java.base/java.lang.Thread.run(Thread.java:831)
+
+jun. 05, 2023 1:32:08 A. M. servidor.clientes.hilos.ServidorClientesHIlos main
+INFO: Servidor iniciado. Esperando clientes...
+jun. 05, 2023 1:32:40 A. M. servidor.clientes.hilos.ServidorClientesHIlos main
+INFO: Nuevo cliente conectado: Socket[addr=/192.168.100.18,port=61209,localport=6666]
+jun. 05, 2023 1:32:40 A. M. servidor.clientes.hilos.ClientHandler run
+INFO: Mensaje recibido de client 0: 
+jun. 05, 2023 1:32:40 A. M. servidor.clientes.hilos.ServidorClientesHIlos broadcastMessage
+INFO: Enviando mensaje a todos los clientes: client 0: 
+jun. 05, 2023 1:32:40 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 0: client 0: 
+jun. 05, 2023 1:32:57 A. M. servidor.clientes.hilos.ServidorClientesHIlos main
+INFO: Nuevo cliente conectado: Socket[addr=/192.168.100.18,port=61211,localport=6666]
+jun. 05, 2023 1:32:57 A. M. servidor.clientes.hilos.ClientHandler run
+INFO: Mensaje recibido de client 1: 
+jun. 05, 2023 1:32:57 A. M. servidor.clientes.hilos.ServidorClientesHIlos broadcastMessage
+INFO: Enviando mensaje a todos los clientes: client 1: 
+jun. 05, 2023 1:32:57 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 0: client 1: 
+jun. 05, 2023 1:32:57 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 1: client 1: 
+jun. 05, 2023 1:33:19 A. M. servidor.clientes.hilos.ClientHandler run
+INFO: Mensaje recibido de client 1: hola/client 0
+jun. 05, 2023 1:33:19 A. M. servidor.clientes.hilos.ServidorClientesHIlos broadcastMessage
+INFO: Enviando mensaje a todos los clientes: client 1: hola/client 0
+jun. 05, 2023 1:33:19 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 0: client 1: hola/client 0
+jun. 05, 2023 1:33:19 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 1: client 1: hola/client 0
+jun. 05, 2023 1:33:31 A. M. servidor.clientes.hilos.ClientHandler run
+INFO: Mensaje recibido de client 0: hola/client 1
+jun. 05, 2023 1:33:31 A. M. servidor.clientes.hilos.ServidorClientesHIlos broadcastMessage
+INFO: Enviando mensaje a todos los clientes: client 0: hola/client 1
+jun. 05, 2023 1:33:31 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 0: client 0: hola/client 1
+jun. 05, 2023 1:33:31 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 1: client 0: hola/client 1
+jun. 05, 2023 1:35:36 A. M. servidor.clientes.hilos.ClientHandler run
+INFO: Mensaje recibido de client 0: tuve como 2 meses/client 0
+jun. 05, 2023 1:35:36 A. M. servidor.clientes.hilos.ServidorClientesHIlos broadcastMessage
+INFO: Enviando mensaje a todos los clientes: client 0: tuve como 2 meses/client 0
+jun. 05, 2023 1:35:36 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 0: client 0: tuve como 2 meses/client 0
+jun. 05, 2023 1:35:36 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 1: client 0: tuve como 2 meses/client 0

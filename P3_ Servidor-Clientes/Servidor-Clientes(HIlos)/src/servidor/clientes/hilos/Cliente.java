@@ -1,4 +1,4 @@
-//Optimizado
+// Practica 5 - Varios clientes, Varios Servidores
 package servidor.clientes.hilos;
 
 import java.io.*;
@@ -6,13 +6,20 @@ import java.net.*;
 import java.util.Scanner;
 
 public class Cliente {
-    private static final int PORT = 6666;
-
     public static void main(String[] args) {
-        try (Scanner scanner = new Scanner(System.in);
-             Socket socket = new Socket("192.168.100.12", PORT);
-             DataInputStream dataIS = new DataInputStream(socket.getInputStream());
-             DataOutputStream dataOS = new DataOutputStream(socket.getOutputStream())) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Ingrese la dirección IP del servidor: ");
+        String serverIP = scanner.nextLine();
+
+        System.out.print("Ingrese el número de puerto del servidor: ");
+        int serverPort = scanner.nextInt();
+
+        try {
+            Socket socket = new Socket(serverIP, serverPort);
+
+            DataInputStream dataIS = new DataInputStream(socket.getInputStream());
+            DataOutputStream dataOS = new DataOutputStream(socket.getOutputStream());
 
             System.out.println("Conexión establecida con el servidor.");
 
@@ -45,7 +52,11 @@ public class Cliente {
 
             sendMessageThread.join();
             receiveMessageThread.join();
-        } catch (IOException | InterruptedException e) {
+        } catch (UnknownHostException e) {
+            System.out.println("Error: Dirección IP del servidor no válida.");
+        } catch (IOException e) {
+            System.out.println("Error al conectar con el servidor: " + e.getMessage());
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
