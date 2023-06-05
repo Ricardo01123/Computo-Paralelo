@@ -1,114 +1,119 @@
 package servidor.clientes.hilos;
 
 import java.io.*;
-import java.util.*;
 import java.net.*;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
-//Server class
 public class ServidorClientesHIlos {
-    //Vector to store active clients
-    static Vector<ClientHandler> clients = new Vector<>();
-    //Counter for clients
-    static int i = 0;
+    private static final int PORT = 6666;
+    protected static final Logger logger = Logger.getLogger(ServidorClientesHIlos.class.getName());
+    private static CopyOnWriteArrayList<ClientHandler> clients = new CopyOnWriteArrayList<>();
 
-    public static void main(String [] args) throws IOException{
-        int port = 6666;
-        ServerSocket serverSocket = new ServerSocket(port);
-        Socket socket;
+    public static void main(String[] args) {
+        configureLogger();
 
-        while(true){
-            socket = serverSocket.accept();
-            System.out.println("New client request received: " + socket);
+        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+            logger.info("Servidor iniciado. Esperando clientes...");
 
-            //Obtain input and output streams
-            DataInputStream dataIS = new DataInputStream(socket.getInputStream());
-            DataOutputStream dataOS = new DataOutputStream(socket.getOutputStream());
+            while (true) {
+                Socket socket = serverSocket.accept();
+                logger.info("Nuevo cliente conectado: " + socket);
 
-            System.out.println("Creando un hilo para este cliente...");
-            ClientHandler match = new ClientHandler(socket,"client " + i, dataIS,dataOS);
-            Thread thread = new Thread(match);
+                DataInputStream dataIS = new DataInputStream(socket.getInputStream());
+                DataOutputStream dataOS = new DataOutputStream(socket.getOutputStream());
 
-            System.out.println("Añadiendo este cliente activo a la lista...");
-            clients.add(match);
+                ClientHandler clientHandler = new ClientHandler(socket, "client " + clients.size(), dataIS, dataOS);
+                clients.add(clientHandler);
 
-            thread.start();
-            i++;
+                Thread thread = new Thread(clientHandler);
+                thread.start();
+            }
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error en el servidor", e);
+        }
+    }
+
+    public static void broadcastMessage(String message) {
+        logger.info("Enviando mensaje a todos los clientes: " + message);
+        for (ClientHandler client : clients) {
+            client.sendMessage(message);
+        }
+    }
+
+    public static void removeClient(ClientHandler client) {
+        clients.remove(client);
+        logger.info("Cliente removido: " + client.getName());
+    }
+
+    private static void configureLogger() {
+        try {
+            FileHandler fileHandler = new FileHandler("server_logs.log", true);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fileHandler.setFormatter(formatter);
+            logger.addHandler(fileHandler);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error al configurar el archivo de registro", e);
         }
     }
 }
 
-//ClientHandler class
-class ClientHandler implements Runnable{
-    Scanner reader = new Scanner(System.in);
-    String name;
-    DataInputStream dataIS;
-    DataOutputStream dataOS;
-    Socket socket;
-    boolean isLoggedIn;
+class ClientHandler implements Runnable {
+    private static final String LOGOUT_COMMAND = "logout";
 
-    //constructor
-    public ClientHandler(Socket socket, String name, DataInputStream dataIS, DataOutputStream dataOS){
-        this.dataIS = dataIS;
-        this.dataOS = dataOS;
+    private final Socket socket;
+    private final String name;
+    private final DataInputStream dataIS;
+    private final DataOutputStream dataOS;
+    private boolean isLoggedIn;
+
+    public ClientHandler(Socket socket, String name, DataInputStream dataIS, DataOutputStream dataOS) {
         this.socket = socket;
         this.name = name;
+        this.dataIS = dataIS;
+        this.dataOS = dataOS;
         this.isLoggedIn = true;
     }
 
     @Override
-    public void run(){
+    public void run() {
         String received;
-        while(true){
-            try{
+        try {
+            while (isLoggedIn) {
                 received = dataIS.readUTF();
-                System.out.println(received);
-                if(received.equals("logout")){
-                    this.isLoggedIn = false;
-                    this.socket.close();
-                    System.out.println("Cliente desconectado: " + this.name);
-                    break;
-                }
+                ServidorClientesHIlos.logger.info("Mensaje recibido de " + name + ": " + received);
 
-                //Break the string into message and client part
-                StringTokenizer stringToken = new StringTokenizer(received,"/");
-                if (stringToken.countTokens() != 2) {
-                    try {
-                        dataOS.writeUTF("Sintaxis incorrecta");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    continue;
-                }
-
-                String messageToSend = stringToken.nextToken();
-                String client = stringToken.nextToken();
-
-                //search for the client in the connected devices list
-                for(ClientHandler toSearch : ServidorClientesHIlos.clients){
-                    if(toSearch.name.equals(client) && toSearch.isLoggedIn == true){
-                        try {
-                            toSearch.dataOS.writeUTF(this.name + " : " + messageToSend);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
-                }
-            }catch(IOException e){
-                e.printStackTrace();
-                try {
-                    dataOS.writeUTF("Sintaxis incorrecta");
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                if (received.equals(LOGOUT_COMMAND)) {
+                    isLoggedIn = false;
+                    socket.close();
+                    ServidorClientesHIlos.removeClient(this);
+                    ServidorClientesHIlos.logger.info("Cliente desconectado: " + name);
+                } else {
+                    ServidorClientesHIlos.broadcastMessage(name + ": " + received);
                 }
             }
-        }
 
-        try{
-            this.dataIS.close();
-            this.dataOS.close();
-        }catch(IOException e){
-            e.printStackTrace();
+            dataIS.close();
+            dataOS.close();
+        } catch (IOException e) {
+            ServidorClientesHIlos.logger.log(Level.SEVERE, "Error en el cliente " + name, e);
         }
+    }
+
+    public void sendMessage(String message) {
+        try {
+            dataOS.writeUTF(message);
+            ServidorClientesHIlos.logger.info("Mensaje enviado a " + name + ": " + message);
+        } catch (IOException e) {
+            ServidorClientesHIlos.logger.log(Level.SEVERE, "Error al enviar mensaje a " + name, e);
+        }
+    }
+
+    public String getName() {
+        return name;
     }
 }

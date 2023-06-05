@@ -1,0 +1,38 @@
+jun. 05, 2023 12:28:51 A. M. servidor.clientes.hilos.ServidorClientesHIlos main
+INFO: Servidor iniciado. Esperando clientes...
+jun. 05, 2023 12:29:17 A. M. servidor.clientes.hilos.ServidorClientesHIlos main
+INFO: Nuevo cliente conectado: Socket[addr=/192.168.100.95,port=52580,localport=6666]
+jun. 05, 2023 12:29:20 A. M. servidor.clientes.hilos.ServidorClientesHIlos main
+INFO: Nuevo cliente conectado: Socket[addr=/192.168.100.95,port=52581,localport=6666]
+jun. 05, 2023 12:30:32 A. M. servidor.clientes.hilos.ClientHandler run
+INFO: Mensaje recibido de client 1: hola guapo/client 0 
+jun. 05, 2023 12:30:32 A. M. servidor.clientes.hilos.ServidorClientesHIlos broadcastMessage
+INFO: Enviando mensaje a todos los clientes: client 1: hola guapo/client 0 
+jun. 05, 2023 12:30:32 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 0: client 1: hola guapo/client 0 
+jun. 05, 2023 12:30:32 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 1: client 1: hola guapo/client 0 
+jun. 05, 2023 12:30:55 A. M. servidor.clientes.hilos.ClientHandler run
+INFO: Mensaje recibido de client 0: hola, ¨C¢mo has estado?/client 1
+jun. 05, 2023 12:30:55 A. M. servidor.clientes.hilos.ServidorClientesHIlos broadcastMessage
+INFO: Enviando mensaje a todos los clientes: client 0: hola, ¨C¢mo has estado?/client 1
+jun. 05, 2023 12:30:55 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 0: client 0: hola, ¨C¢mo has estado?/client 1
+jun. 05, 2023 12:30:55 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 1: client 0: hola, ¨C¢mo has estado?/client 1
+jun. 05, 2023 12:31:38 A. M. servidor.clientes.hilos.ClientHandler run
+INFO: Mensaje recibido de client 1: ya quedo la practica 4/client 0
+jun. 05, 2023 12:31:38 A. M. servidor.clientes.hilos.ServidorClientesHIlos broadcastMessage
+INFO: Enviando mensaje a todos los clientes: client 1: ya quedo la practica 4/client 0
+jun. 05, 2023 12:31:38 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 0: client 1: ya quedo la practica 4/client 0
+jun. 05, 2023 12:31:38 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 1: client 1: ya quedo la practica 4/client 0
+jun. 05, 2023 12:32:03 A. M. servidor.clientes.hilos.ClientHandler run
+INFO: Mensaje recibido de client 0: Excelente, entonces ahora vamos por la practica 5/client 1 
+jun. 05, 2023 12:32:03 A. M. servidor.clientes.hilos.ServidorClientesHIlos broadcastMessage
+INFO: Enviando mensaje a todos los clientes: client 0: Excelente, entonces ahora vamos por la practica 5/client 1 
+jun. 05, 2023 12:32:03 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 0: client 0: Excelente, entonces ahora vamos por la practica 5/client 1 
+jun. 05, 2023 12:32:03 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 1: client 0: Excelente, entonces ahora vamos por la practica 5/client 1 
