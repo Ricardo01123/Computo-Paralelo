@@ -1,36 +1,35 @@
 package servidor.clientes.hilos;
 
 import java.io.*;
-import java.net.*;
 import java.util.*;
+import java.net.*;
 
-// Clase ServidorClientesHIlos
+//Server class
 public class ServidorClientesHIlos {
-    // Vector para almacenar los clientes activos
+    //Vector to store active clients
     static Vector<ClientHandler> clients = new Vector<>();
-    // Contador para los clientes
+    //Counter for clients
     static int i = 0;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String [] args) throws IOException{
         int port = 6666;
         ServerSocket serverSocket = new ServerSocket(port);
+        Socket socket;
 
-        System.out.println("El servidor está esperando conexiones...");
+        while(true){
+            socket = serverSocket.accept();
+            System.out.println("New client request received: " + socket);
 
-        while (true) {
-            Socket socket = serverSocket.accept();
-            System.out.println("Nueva solicitud de cliente recibida: " + socket);
-
-            // Obtener flujos de entrada y salida
+            //Obtain input and output streams
             DataInputStream dataIS = new DataInputStream(socket.getInputStream());
             DataOutputStream dataOS = new DataOutputStream(socket.getOutputStream());
 
-            System.out.println("Creando un nuevo controlador para este cliente...");
-            ClientHandler clientHandler = new ClientHandler(socket, "Cliente " + i, dataIS, dataOS);
-            Thread thread = new Thread(clientHandler);
+            System.out.println("Creando un hilo para este cliente...");
+            ClientHandler match = new ClientHandler(socket,"client " + i, dataIS,dataOS);
+            Thread thread = new Thread(match);
 
-            System.out.println("Agregando este cliente a la lista de clientes activos...");
-            clients.add(clientHandler);
+            System.out.println("Añadiendo este cliente activo a la lista...");
+            clients.add(match);
 
             thread.start();
             i++;
@@ -38,8 +37,8 @@ public class ServidorClientesHIlos {
     }
 }
 
-// Clase ClientHandler
-class ClientHandler implements Runnable {
+//ClientHandler class
+class ClientHandler implements Runnable{
     Scanner reader = new Scanner(System.in);
     String name;
     DataInputStream dataIS;
@@ -47,46 +46,68 @@ class ClientHandler implements Runnable {
     Socket socket;
     boolean isLoggedIn;
 
-    // Constructor
-    public ClientHandler(Socket socket, String name, DataInputStream dataIS, DataOutputStream dataOS) {
-        this.socket = socket;
-        this.name = name;
+    //constructor
+    public ClientHandler(Socket socket, String name, DataInputStream dataIS, DataOutputStream dataOS){
         this.dataIS = dataIS;
         this.dataOS = dataOS;
+        this.socket = socket;
+        this.name = name;
         this.isLoggedIn = true;
     }
 
     @Override
-    public void run() {
+    public void run(){
         String received;
-        while (true) {
-            try {
+        while(true){
+            try{
                 received = dataIS.readUTF();
                 System.out.println(received);
-                if (received.equals("logout")) {
+                if(received.equals("logout")){
                     this.isLoggedIn = false;
                     this.socket.close();
+                    System.out.println("Cliente desconectado: " + this.name);
                     break;
                 }
-                // Separar la cadena en mensaje y cliente
-                StringTokenizer stringToken = new StringTokenizer(received, "/");
+
+                //Break the string into message and client part
+                StringTokenizer stringToken = new StringTokenizer(received,"/");
+                if (stringToken.countTokens() != 2) {
+                    try {
+                        dataOS.writeUTF("Sintaxis incorrecta");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    continue;
+                }
+
                 String messageToSend = stringToken.nextToken();
                 String client = stringToken.nextToken();
-                // Buscar el cliente en la lista de dispositivos conectados
-                for (ClientHandler toSearch : ServidorClientesHIlos.clients) {
-                    if (toSearch.name.equals(client) && toSearch.isLoggedIn) {
-                        toSearch.dataOS.writeUTF(this.name + " : " + messageToSend);
+
+                //search for the client in the connected devices list
+                for(ClientHandler toSearch : ServidorClientesHIlos.clients){
+                    if(toSearch.name.equals(client) && toSearch.isLoggedIn == true){
+                        try {
+                            toSearch.dataOS.writeUTF(this.name + " : " + messageToSend);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     }
                 }
-            } catch (IOException e) {
+            }catch(IOException e){
                 e.printStackTrace();
+                try {
+                    dataOS.writeUTF("Sintaxis incorrecta");
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         }
-        try {
+
+        try{
             this.dataIS.close();
             this.dataOS.close();
-        } catch (IOException e) {
+        }catch(IOException e){
             e.printStackTrace();
         }
     }

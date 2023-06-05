@@ -9,12 +9,9 @@ public class Cliente {
 
     public static void main(String[] args) throws UnknownHostException, IOException {
         Scanner reader = new Scanner(System.in);
-        InetAddress ip = InetAddress.getByName("187.190.39.86"); // Reemplazar con la dirección IPv4
-
-        // Establecer la conexión con el servidor
+        InetAddress ip = InetAddress.getByName("192.168.100.12"); // Cambiar la IP del servidor
         Socket socket = new Socket(ip, port);
 
-        // Obtener flujos de entrada y salida
         DataInputStream dataIS = new DataInputStream(socket.getInputStream());
         DataOutputStream dataOS = new DataOutputStream(socket.getOutputStream());
 
@@ -23,10 +20,10 @@ public class Cliente {
             @Override
             public void run() {
                 while (true) {
-                    // Leer el mensaje a enviar desde el usuario
+                    // Leer el mensaje a enviar
                     String message = reader.nextLine();
                     try {
-                        dataOS.writeUTF(message); // Enviar el mensaje al servidor
+                        dataOS.writeUTF(message);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -34,15 +31,15 @@ public class Cliente {
             }
         });
 
-        // Hilo para leer mensajes del servidor
+        // Hilo para recibir mensajes del servidor
         Thread readMessage = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
                     try {
-                        // Leer el mensaje enviado por el servidor
+                        // Leer el mensaje enviado a este cliente desde el servidor
                         String message = dataIS.readUTF();
-                        System.out.println(message); // Mostrar el mensaje en la consola
+                        System.out.println(message);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -50,7 +47,7 @@ public class Cliente {
             }
         });
 
-        sendMessage.start(); // Iniciar el hilo para enviar mensajes
-        readMessage.start(); // Iniciar el hilo para leer mensajes
+        sendMessage.start();
+        readMessage.start();
     }
 }
