@@ -114,3 +114,99 @@ jun. 05, 2023 1:35:36 A. M. servidor.clientes.hilos.ClientHandler sendMessage
 INFO: Mensaje enviado a client 0: client 0: tuve como 2 meses/client 0
 jun. 05, 2023 1:35:36 A. M. servidor.clientes.hilos.ClientHandler sendMessage
 INFO: Mensaje enviado a client 1: client 0: tuve como 2 meses/client 0
+jun. 05, 2023 2:00:11 A. M. servidor.clientes.hilos.ServidorClientesHIlos main
+INFO: Nuevo cliente conectado: Socket[addr=/192.168.100.95,port=52990,localport=6666]
+jun. 05, 2023 2:00:11 A. M. servidor.clientes.hilos.ClientHandler run
+INFO: Mensaje recibido de client 2: 
+jun. 05, 2023 2:00:11 A. M. servidor.clientes.hilos.ServidorClientesHIlos broadcastMessage
+INFO: Enviando mensaje a todos los clientes: client 2: 
+jun. 05, 2023 2:00:11 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 0: client 2: 
+jun. 05, 2023 2:00:11 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 1: client 2: 
+jun. 05, 2023 2:00:11 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 2: client 2: 
+jun. 05, 2023 2:00:33 A. M. servidor.clientes.hilos.ClientHandler run
+INFO: Mensaje recibido de client 2: Yo estoy conectado al Servidor 1/client 0 
+jun. 05, 2023 2:00:33 A. M. servidor.clientes.hilos.ServidorClientesHIlos broadcastMessage
+INFO: Enviando mensaje a todos los clientes: client 2: Yo estoy conectado al Servidor 1/client 0 
+jun. 05, 2023 2:00:33 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 0: client 2: Yo estoy conectado al Servidor 1/client 0 
+jun. 05, 2023 2:00:33 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 1: client 2: Yo estoy conectado al Servidor 1/client 0 
+jun. 05, 2023 2:00:33 A. M. servidor.clientes.hilos.ClientHandler sendMessage
+INFO: Mensaje enviado a client 2: client 2: Yo estoy conectado al Servidor 1/client 0 
+jun. 05, 2023 2:23:24 A. M. servidor.clientes.hilos.ClientHandler run
+SEVERE: Error en el cliente client 0
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:323)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:350)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:803)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:976)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:971)
+	at java.base/java.io.DataInputStream.readUnsignedShort(DataInputStream.java:343)
+	at java.base/java.io.DataInputStream.readUTF(DataInputStream.java:595)
+	at java.base/java.io.DataInputStream.readUTF(DataInputStream.java:570)
+	at servidor.clientes.hilos.ClientHandler.run(ServidorClientesHIlos.java:87)
+	at java.base/java.lang.Thread.run(Thread.java:831)
+
+jun. 05, 2023 2:23:32 A. M. servidor.clientes.hilos.ClientHandler run
+SEVERE: Error en el cliente client 1
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:323)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:350)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:803)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:976)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:971)
+	at java.base/java.io.DataInputStream.readUnsignedShort(DataInputStream.java:343)
+	at java.base/java.io.DataInputStream.readUTF(DataInputStream.java:595)
+	at java.base/java.io.DataInputStream.readUTF(DataInputStream.java:570)
+	at servidor.clientes.hilos.ClientHandler.run(ServidorClientesHIlos.java:87)
+	at java.base/java.lang.Thread.run(Thread.java:831)
+
+jun. 05, 2023 2:29:01 A. M. servidor.clientes.hilos.Servidor main
+INFO: Servidor iniciado. Esperando clientes...
+jun. 05, 2023 2:29:50 A. M. servidor.clientes.hilos.Servidor main
+INFO: Nuevo cliente conectado: Socket[addr=/192.168.100.18,port=62746,localport=6666]
+jun. 05, 2023 2:29:50 A. M. servidor.clientes.hilos.ClientHandler run
+INFO: Mensaje recibido de client 0: 
+jun. 05, 2023 2:29:50 A. M. servidor.clientes.hilos.Servidor broadcastMessage
+INFO: Enviando mensaje a todos los clientes: client 0: 
+jun. 05, 2023 2:31:06 A. M. servidor.clientes.hilos.Servidor main
+INFO: Nuevo cliente conectado: Socket[addr=/192.168.100.18,port=62798,localport=6666]
+jun. 05, 2023 2:31:06 A. M. servidor.clientes.hilos.ClientHandler run
+INFO: Mensaje recibido de client 1: 
+jun. 05, 2023 2:31:06 A. M. servidor.clientes.hilos.Servidor broadcastMessage
+INFO: Enviando mensaje a todos los clientes: client 1: 
+jun. 05, 2023 2:31:24 A. M. servidor.clientes.hilos.ClientHandler run
+INFO: Mensaje recibido de client 1: hola/client 0
+jun. 05, 2023 2:31:24 A. M. servidor.clientes.hilos.Servidor broadcastMessage
+INFO: Enviando mensaje a todos los clientes: client 1: hola/client 0
+jun. 05, 2023 2:31:35 A. M. servidor.clientes.hilos.ClientHandler run
+SEVERE: Error en el cliente client 1
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:323)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:350)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:803)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:976)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:971)
+	at java.base/java.io.DataInputStream.readUnsignedShort(DataInputStream.java:343)
+	at java.base/java.io.DataInputStream.readUTF(DataInputStream.java:595)
+	at java.base/java.io.DataInputStream.readUTF(DataInputStream.java:570)
+	at servidor.clientes.hilos.ClientHandler.run(Servidor.java:87)
+	at java.base/java.lang.Thread.run(Thread.java:831)
+
+jun. 05, 2023 2:31:36 A. M. servidor.clientes.hilos.ClientHandler run
+SEVERE: Error en el cliente client 0
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:323)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:350)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:803)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:976)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:971)
+	at java.base/java.io.DataInputStream.readUnsignedShort(DataInputStream.java:343)
+	at java.base/java.io.DataInputStream.readUTF(DataInputStream.java:595)
+	at java.base/java.io.DataInputStream.readUTF(DataInputStream.java:570)
+	at servidor.clientes.hilos.ClientHandler.run(Servidor.java:87)
+	at java.base/java.lang.Thread.run(Thread.java:831)
+

@@ -1,4 +1,4 @@
-// Practica 5 - Varios clientes, Varios Servidores
+// Practica 6 - Algoritmo de fallas bizantinas
 package servidor.clientes.hilos;
 
 import java.io.*;
@@ -29,6 +29,7 @@ public class Cliente {
                     while (true) {
                         String message = scanner.nextLine();
                         dataOS.writeUTF(message);
+                        dataOS.flush();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -54,9 +55,7 @@ public class Cliente {
             receiveMessageThread.join();
         } catch (UnknownHostException e) {
             System.out.println("Error: Dirección IP del servidor no válida.");
-        } catch (IOException e) {
-            System.out.println("Error al conectar con el servidor: " + e.getMessage());
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
