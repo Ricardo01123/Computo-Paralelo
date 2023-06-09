@@ -210,3 +210,5 @@ java.net.SocketException: Connection reset
 	at servidor.clientes.hilos.ClientHandler.run(Servidor.java:87)
 	at java.base/java.lang.Thread.run(Thread.java:831)
 
+jun. 09, 2023 2:18:24 A. M. servidor.clientes.hilos.ServidorClientesHIlos main
+INFO: Servidor iniciado. Esperando clientes...

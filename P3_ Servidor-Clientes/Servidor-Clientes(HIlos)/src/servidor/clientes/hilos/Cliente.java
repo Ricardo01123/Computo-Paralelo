@@ -1,4 +1,3 @@
-// Practica 6 - Algoritmo de fallas bizantinas
 package servidor.clientes.hilos;
 
 import java.io.*;
